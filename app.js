@@ -19,6 +19,9 @@ const loginForm = document.getElementById("loginForm");
 const showLogin = document.getElementById("showLogin");
 const showSignup = document.getElementById("showSignup");
 
+const googleSignup = document.getElementById("googleSignup");
+const googleLogin = document.getElementById("googleLogin");
+
 
 // ================= SWITCH TO LOGIN =================
 
@@ -52,8 +55,8 @@ signUpForm.addEventListener("submit", async function (e) {
 
     const firstName = document.getElementById("inputFirstName").value.trim();
     const lastName = document.getElementById("inputLastName").value.trim();
-    const email = document.getElementById("inputEmail4").value.trim();
-    const password = document.getElementById("inputPassword4").value;
+    const email = document.getElementById("inputEmail").value.trim();
+    const password = document.getElementById("inputPassword").value;
     const phone = document.getElementById("inputNumber").value.trim();
     const city = document.getElementById("inputCity").value.trim();
 
@@ -62,6 +65,7 @@ signUpForm.addEventListener("submit", async function (e) {
     try {
 
         const { data, error } = await supabaseClient.auth.signUp({
+
             email: email,
             password: password,
 
@@ -74,16 +78,19 @@ signUpForm.addEventListener("submit", async function (e) {
                     city: city
                 }
             }
+
         });
 
         if (error) {
             throw error;
         }
 
-        // Empty the form
+
+        // Empty form
         signUpForm.reset();
 
-        // Show success message
+
+        // Success alert
         await Swal.fire({
             icon: "success",
             title: "Signup Successful!",
@@ -91,8 +98,10 @@ signUpForm.addEventListener("submit", async function (e) {
             confirmButtonText: "Go to Dashboard"
         });
 
-        // Redirect to dashboard
+
+        // Go to dashboard
         window.location.href = "dashboard.html";
+
 
     } catch (error) {
 
@@ -103,7 +112,9 @@ signUpForm.addEventListener("submit", async function (e) {
             title: "Signup Failed",
             text: error.message
         });
+
     }
+
 });
 
 
@@ -116,24 +127,31 @@ loginForm.addEventListener("submit", async function (e) {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
 
+
     try {
 
         const { data, error } =
             await supabaseClient.auth.signInWithPassword({
+
                 email: email,
                 password: password
+
             });
+
 
         if (error) {
             throw error;
         }
 
+
         console.log("Logged in user:", data.user);
 
-        // Empty login form
+
+        // Empty form
         loginForm.reset();
 
-        // Show success message
+
+        // Success alert
         await Swal.fire({
             icon: "success",
             title: "Login Successful!",
@@ -141,8 +159,10 @@ loginForm.addEventListener("submit", async function (e) {
             confirmButtonText: "Go to Dashboard"
         });
 
-        // Redirect to dashboard
+
+        // Go to dashboard
         window.location.href = "dashboard.html";
+
 
     } catch (error) {
 
@@ -153,5 +173,126 @@ loginForm.addEventListener("submit", async function (e) {
             title: "Login Failed",
             text: error.message
         });
+
     }
+
 });
+
+
+// ================= GOOGLE SIGN IN =================
+
+// Signup Google button
+googleSignup.addEventListener("click", async function () {
+
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: window.location.origin + "/dashboard.html"
+        }
+    });
+
+    if (error) {
+
+        console.error("Google Signup Error:", error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Google Signup Failed",
+            text: error.message
+        });
+
+    }
+
+});
+
+
+// Login Google button
+googleLogin.addEventListener("click", async function () {
+
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: window.location.origin + "/dashboard.html"
+        }
+    });
+
+    if (error) {
+
+        console.error("Google Login Error:", error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Google Login Failed",
+            text: error.message
+        });
+
+    }
+
+});
+
+// ================= INITIAL SESSION =================
+
+async function checkInitialSession() {
+
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error) {
+        console.error("Session Error:", error);
+        return;
+    }
+
+    if (session) {
+        console.log("Active session:", session.user);
+
+        const user = session.user;
+
+        console.log("User email:", user.email);
+        console.log(
+            "Display name:",
+            user.user_metadata?.display_name
+        );
+
+    } else {
+        console.log("No active session");
+    }
+}
+
+
+// Run when page loads
+checkInitialSession();
+// ================= CHECK ACTIVE SESSION =================
+ // ================= CHECK ACTIVE SESSION =================
+
+async function checkActiveSession() {
+
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error) {
+        console.error("Session Error:", error);
+        return;
+    }
+
+    // User is already logged in
+    if (session) {
+
+        console.log("Active session found:", session.user);
+
+        window.location.replace("dashboard.html");
+
+        return;
+    }
+
+    // No session
+    // Stay on login/signup page
+    console.log("No active session.");
+}
+
+
+// Run when page loads
+checkActiveSession();
