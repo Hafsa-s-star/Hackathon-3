@@ -1,12 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="./images/icon.jpg" type="image/x-icon">
@@ -40,18 +39,17 @@
 
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
-                    <input required type="email" class="form-control" id="inputEmail4">
+                    <input required type="email" class="form-control" id="inputEmail">
                 </div>
 
                 <div class="col-md-6">
                     <label for="inputPassword4" class="form-label">Password</label>
-                    <input required type="password" class="form-control" id="inputPassword4">
+                    <input required type="password" class="form-control" id="inputPassword">
                 </div>
 
                 <div class="col-12">
                     <label for="inputNumber" class="form-label">Phone</label>
-                    <input required type="tel" class="form-control" id="inputNumber"
-                        placeholder="####-######">
+                    <input required type="tel" class="form-control" id="inputNumber" placeholder="####-######">
                 </div>
 
                 <div class="col-md-6">
@@ -59,19 +57,18 @@
                     <input required type="text" class="form-control" id="inputCity">
                 </div>
 
-                <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck">
-                            Remember me
-                        </label>
-                    </div>
+
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn bg-color text-white w-100 py-2 fw-semibold rounded-3 signUpBtn">
+                        Sign Up
+                    </button>
                 </div>
 
                 <div class="col-12 text-center">
-                    <button type="submit"
-                        class="btn bg-color text-white w-100 py-2 fw-semibold rounded-3">
-                        Sign Up
+                    <button type="button" class="btn btn-outline-dark w-100 py-2 rounded-3">
+                        <img src="./images/google.png" width="30"
+                            class="me-2" alt="Google">
+                        Sign in with Google
                     </button>
                 </div>
 
@@ -88,8 +85,7 @@
 
 
     <!-- ================= LOGIN ================= -->
-    <div id="loginFormContainer" class="card p-4 shadow-lg rounded-4 d-none"
-        style="width: 30rem;">
+    <div id="loginFormContainer" class="card p-4 shadow-lg rounded-4 d-none" style="width: 30rem;">
 
         <h2 class="text text-center mb-3">
             <img class="logo" src="Images/logo.png" alt="">
@@ -117,9 +113,16 @@
 
 
                 <div class="col-12 text-center">
-                    <button type="submit"
-                        class="btn bg-color text-white w-100 py-2 fw-semibold rounded-3">
+                    <button type="submit" class="btn bg-color text-white w-100 py-2 fw-semibold rounded-3" onclick="login()">
                         Login
+                    </button>
+                </div>
+
+                 <div class="col-12 text-center">
+                    <button type="button" class="btn btn-outline-dark w-100 py-2 rounded-3">
+                        <img src="./images/google.png" width="30"
+                            class="me-2" alt="Google">
+                        Sign in with Google
                     </button>
                 </div>
 
@@ -136,6 +139,8 @@
 
 
     <!-- Bootstrap -->
+     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Your JavaScript -->
