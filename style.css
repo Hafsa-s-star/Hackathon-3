@@ -1,0 +1,38 @@
+#signUpFormContainer {
+    margin: 0 auto !important;
+    margin-top: 0px !important;
+}
+
+.text {
+    color: #11414d !important;
+}
+
+.bg-color {
+    background-color: black !important;
+}
+
+.hidden {
+    display: none;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+.logo {
+    width: 85px;
+    height: 85px;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+#loginFormContainer {
+    margin: auto;
+}
