@@ -454,3 +454,55 @@ if (logoutBtn) {
 
 // Initialize on page load
 loadUser();
+
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const navLinks = document.querySelector(".nav-links");
+
+    hamburgerBtn.addEventListener("click", function () {
+
+        navLinks.classList.toggle("show");
+
+        const icon = hamburgerBtn.querySelector("i");
+
+        if (navLinks.classList.contains("show")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times");
+        } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        }
+    });
+
+
+    /* Close menu when a link is clicked */
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+
+        link.addEventListener("click", function () {
+
+            navLinks.classList.remove("show");
+
+            const icon = hamburgerBtn.querySelector("i");
+
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        });
+
+    });
+
+
+    /* Close menu when resizing back to desktop */
+
+    window.addEventListener("resize", function () {
+
+        if (window.innerWidth > 900) {
+
+            navLinks.classList.remove("show");
+
+            const icon = hamburgerBtn.querySelector("i");
+
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        }
+
+    });

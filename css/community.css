@@ -2445,3 +2445,197 @@ body {
     }
 
 }
+
+/* =========================================================
+   RESPONSIVE HAMBURGER NAVBAR
+   ========================================================= */
+
+.hamburger-btn {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    background: transparent;
+
+    color: #5b3bb5;
+
+    border-radius: 10px;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    flex-shrink: 0;
+}
+
+.hamburger-btn:hover {
+    background: #f3efff;
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        min-height: 68px;
+
+        padding: 10px 4%;
+
+        gap: 10px;
+
+        flex-wrap: nowrap;
+
+        position: sticky;
+        top: 0;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .hamburger-btn {
+        display: flex;
+
+        margin-left: auto;
+    }
+
+    .nav-links {
+        position: absolute;
+
+        top: 100%;
+        left: 0;
+        right: 0;
+
+        width: 100%;
+
+        background: white;
+
+        border-top: 1px solid #eeeaf5;
+        border-bottom: 1px solid #eeeaf5;
+
+        box-shadow:
+            0 10px 25px rgba(48, 37, 76, 0.08);
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 4px;
+
+        padding: 12px 4%;
+
+        z-index: 999;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .nav-links a {
+        width: 100%;
+
+        padding: 12px 14px;
+
+        border-radius: 9px;
+
+        font-size: 14px;
+    }
+
+    .nav-right {
+        margin-left: 0;
+
+        gap: 8px;
+    }
+
+    .profile-button > span:not(.profile-arrow) {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 576px) {
+
+    .navbar {
+        padding: 9px 4%;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .hamburger-btn {
+        width: 38px;
+        height: 38px;
+
+        font-size: 19px;
+    }
+
+    .notification-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .profile-picture {
+        width: 35px;
+        height: 35px;
+    }
+
+    .nav-links {
+        padding: 10px 4%;
+    }
+
+    .nav-links a {
+        font-size: 13px;
+
+        padding: 11px 12px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .logo {
+        font-size: 15px;
+    }
+
+    .nav-right {
+        gap: 3px;
+    }
+
+    .hamburger-btn {
+        width: 35px;
+        height: 35px;
+
+        font-size: 18px;
+    }
+
+    .notification-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .profile-picture {
+        width: 33px;
+        height: 33px;
+    }
+}
