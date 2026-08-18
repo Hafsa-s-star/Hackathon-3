@@ -1946,6 +1946,10 @@ async function getPosts() {
 
     }
 
+    if (window.StudentHubAnim && typeof window.StudentHubAnim.animateCardsEntrance === "function") {
+        window.StudentHubAnim.animateCardsEntrance(".post-card");
+    }
+
 }
 
 

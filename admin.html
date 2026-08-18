@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | StudentHub</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Notifications CSS -->
+    <link rel="stylesheet" href="./css/notifications.css">
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="./css/admin.css">
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <!-- ================= TOP NAVBAR ================= -->
+    <nav class="admin-navbar">
+        <div class="admin-nav-left">
+            <a href="admin.html" class="admin-logo">
+                🎓 StudentHub
+            </a>
+            <span class="admin-badge-pill">
+                <i class="bi bi-shield-lock-fill me-1"></i> Admin Portal
+            </span>
+        </div>
+
+        <div class="admin-nav-right">
+            <!-- Universal Navbar Notifications -->
+            <div class="notification-wrapper">
+                <button type="button" class="notification-btn" id="notificationBtn" aria-label="Notifications">
+                    <i class="bi bi-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </button>
+
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-header">
+                        <div class="notification-header-title">
+                            <i class="bi bi-bell-fill"></i>
+                            <h5>Notifications</h5>
+                        </div>
+                        <button type="button" class="notification-mark-all-btn" id="markAllReadBtn">
+                            Mark all read
+                        </button>
+                    </div>
+
+                    <div class="notification-list" id="notificationList">
+                        <div class="notification-loading">
+                            <span class="spinner-border spinner-border-sm"></span> Loading...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Switcher to Student Portal -->
+            <a href="dashboard.html" class="student-portal-btn">
+                <i class="bi bi-arrow-left-circle"></i> Student Portal
+            </a>
+
+            <!-- Admin Profile / Logout -->
+            <button type="button" class="admin-primary-btn" id="adminLogoutBtn" style="background: #e63946; padding: 7px 14px; font-size: 13px;">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- ================= ADMIN MAIN LAYOUT ================= -->
+    <div class="admin-layout">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-card">
+                <div class="admin-sidebar-title">Admin Management</div>
+
+                <button type="button" class="admin-tab-btn active" data-tab="overview">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard Stats</span>
+                </button>
+
+                <button type="button" class="admin-tab-btn" data-tab="users">
+                    <i class="bi bi-people-fill"></i>
+                    <span>User Management</span>
+                    <span class="admin-tab-count" id="usersTabCount">0</span>
+                </button>
+
+                <button type="button" class="admin-tab-btn" data-tab="posts">
+                    <i class="bi bi-file-earmark-post"></i>
+                    <span>Post Management</span>
+                    <span class="admin-tab-count" id="postsTabCount">0</span>
+                </button>
+
+                <button type="button" class="admin-tab-btn" data-tab="events">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>Event Management</span>
+                    <span class="admin-tab-count" id="eventsTabCount">0</span>
+                </button>
+
+                <button type="button" class="admin-tab-btn" data-tab="announcements">
+                    <i class="bi bi-megaphone-fill"></i>
+                    <span>Announcements</span>
+                    <span class="admin-tab-count" id="announcementsTabCount">0</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN TAB PANELS -->
+        <main class="admin-main">
+
+            <!-- HEADER BANNER -->
+            <div class="admin-header-card">
+                <div class="admin-header-text">
+                    <h1>Administrator Control Center</h1>
+                    <p id="adminWelcomeText">Welcome back, Administrator. Full system control & moderation.</p>
+                </div>
+                <div class="admin-quick-time" id="adminDateTimeDisplay">
+                    <i class="bi bi-clock-history"></i> Live Synchronized
+                </div>
+            </div>
+
+            <!-- ================= TAB 1: OVERVIEW & STATS ================= -->
+            <section class="admin-tab-panel active" id="tab-overview">
+
+                <!-- DASHBOARD STATS METRICS -->
+                <div class="admin-stats-grid">
+                    <!-- Total Users -->
+                    <div class="admin-stat-card" data-target-tab="users">
+                        <div class="admin-stat-icon users">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="admin-stat-info">
+                            <p>Total Users</p>
+                            <div class="admin-stat-number" id="statTotalUsers">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Total Posts -->
+                    <div class="admin-stat-card" data-target-tab="posts">
+                        <div class="admin-stat-icon posts">
+                            <i class="bi bi-file-earmark-post-fill"></i>
+                        </div>
+                        <div class="admin-stat-info">
+                            <p>Total Posts</p>
+                            <div class="admin-stat-number" id="statTotalPosts">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Total Events -->
+                    <div class="admin-stat-card" data-target-tab="events">
+                        <div class="admin-stat-icon events">
+                            <i class="bi bi-calendar-check-fill"></i>
+                        </div>
+                        <div class="admin-stat-info">
+                            <p>Total Events</p>
+                            <div class="admin-stat-number" id="statTotalEvents">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Total Announcements -->
+                    <div class="admin-stat-card" data-target-tab="announcements">
+                        <div class="admin-stat-icon announcements">
+                            <i class="bi bi-megaphone-fill"></i>
+                        </div>
+                        <div class="admin-stat-info">
+                            <p>Announcements</p>
+                            <div class="admin-stat-number" id="statTotalAnnouncements">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OVERVIEW RECENT ACTIVITY PREVIEWS -->
+                <div class="row g-4 mt-1">
+                    <div class="col-lg-6">
+                        <div class="admin-content-card h-100">
+                            <div class="admin-card-header">
+                                <h2><i class="bi bi-activity text-primary"></i> System Highlights</h2>
+                                <button type="button" class="admin-btn-sm admin-btn-secondary" id="refreshAllStatsBtn">
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                                </button>
+                            </div>
+                            <div class="admin-quick-summary">
+                                <ul class="list-group list-group-flush" id="overviewActivityList">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                        <span><i class="bi bi-shield-check text-success me-2"></i> Admin authentication</span>
+                                        <span class="badge bg-success">Verified</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                        <span><i class="bi bi-database-check text-primary me-2"></i> Supabase Cloud Database</span>
+                                        <span class="badge bg-primary">Connected</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                        <span><i class="bi bi-bell-fill text-warning me-2"></i> Realtime Notifications</span>
+                                        <span class="badge bg-warning text-dark">Active</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="admin-content-card h-100">
+                            <div class="admin-card-header">
+                                <h2><i class="bi bi-lightning-charge text-warning"></i> Quick Actions</h2>
+                            </div>
+                            <div class="d-flex flex-column gap-3">
+                                <button type="button" class="admin-tab-btn" data-tab="announcements" style="background: #faf8ff; border: 1px solid #e9e3f5;">
+                                    <i class="bi bi-megaphone-fill text-warning"></i>
+                                    <span>Broadcast Announcement to Students</span>
+                                </button>
+                                <button type="button" class="admin-tab-btn" data-tab="events" style="background: #faf8ff; border: 1px solid #e9e3f5;">
+                                    <i class="bi bi-calendar-event text-success"></i>
+                                    <span>Review Pending Events</span>
+                                </button>
+                                <button type="button" class="admin-tab-btn" data-tab="posts" style="background: #faf8ff; border: 1px solid #e9e3f5;">
+                                    <i class="bi bi-file-earmark-post text-primary"></i>
+                                    <span>Moderate Community Posts</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ================= TAB 2: USER MANAGEMENT ================= -->
+            <section class="admin-tab-panel" id="tab-users">
+                <div class="admin-content-card">
+                    <div class="admin-card-header">
+                        <h2><i class="bi bi-people-fill text-primary"></i> User Management</h2>
+                        <div class="admin-card-actions">
+                            <div class="admin-search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" class="admin-search-input" id="userSearchInput" placeholder="Search users by name or email...">
+                            </div>
+                            <select class="admin-filter-select" id="userRoleFilter">
+                                <option value="all">All Roles</option>
+                                <option value="user">Students</option>
+                                <option value="admin">Admins</option>
+                                <option value="blocked">Blocked</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        <span class="spinner-border spinner-border-sm"></span> Loading users...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 3: POST MANAGEMENT ================= -->
+            <section class="admin-tab-panel" id="tab-posts">
+                <div class="admin-content-card">
+                    <div class="admin-card-header">
+                        <h2><i class="bi bi-file-earmark-post-fill text-primary"></i> Post Management</h2>
+                        <div class="admin-card-actions">
+                            <div class="admin-search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" class="admin-search-input" id="postSearchInput" placeholder="Search posts by title or author...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-posts-grid" id="adminPostsContainer">
+                        <div class="admin-empty-state">
+                            <span class="spinner-border spinner-border-sm"></span> Loading community posts...
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 4: EVENT MANAGEMENT ================= -->
+            <section class="admin-tab-panel" id="tab-events">
+                <div class="admin-content-card">
+                    <div class="admin-card-header">
+                        <h2><i class="bi bi-calendar-event text-success"></i> Event Management</h2>
+                        <div class="admin-card-actions">
+                            <div class="admin-search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" class="admin-search-input" id="eventSearchInput" placeholder="Search events...">
+                            </div>
+                            <select class="admin-filter-select" id="eventStatusFilter">
+                                <option value="all">All Events</option>
+                                <option value="pending">Pending Approval</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Organizer</th>
+                                    <th>Date & Time</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eventTableBody">
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <span class="spinner-border spinner-border-sm"></span> Loading events...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 5: ANNOUNCEMENTS ================= -->
+            <section class="admin-tab-panel" id="tab-announcements">
+                <div class="admin-content-card">
+                    <div class="admin-card-header">
+                        <h2><i class="bi bi-megaphone-fill text-warning"></i> Broadcast Announcement</h2>
+                    </div>
+
+                    <!-- Create Announcement Form -->
+                    <div class="announcement-form-box">
+                        <form id="createAnnouncementForm">
+                            <div class="announcement-form-grid">
+                                <div class="form-group">
+                                    <label for="announcementTitle">Announcement Title *</label>
+                                    <input type="text" id="announcementTitle" class="form-input" placeholder="e.g. Midterm Examination Schedule Announced" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="announcementPriority">Priority Level</label>
+                                    <select id="announcementPriority" class="form-select">
+                                        <option value="normal">Normal Announcement</option>
+                                        <option value="important">Important Notification</option>
+                                        <option value="urgent">Urgent Alert</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="announcementMessage">Announcement Content / Details *</label>
+                                <textarea id="announcementMessage" class="form-textarea" placeholder="Provide full details. This will appear on all student dashboards..." required></textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="admin-primary-btn" id="submitAnnouncementBtn">
+                                    <i class="bi bi-send-fill"></i> Publish to Student Dashboard
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Existing Announcements List -->
+                    <h3 class="mt-4 mb-3" style="font-size: 17px; font-weight: 700;">
+                        <i class="bi bi-list-stars me-2"></i> Published Announcements
+                    </h3>
+                    <div class="announcements-list" id="announcementsListContainer">
+                        <div class="admin-empty-state">
+                            <span class="spinner-border spinner-border-sm"></span> Loading announcements...
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="./js/animations.js"></script>
+    <script src="./js/notifications.js"></script>
+    <script src="./js/admin.js"></script>
+</body>
+
+</html>

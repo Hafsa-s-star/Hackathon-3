@@ -24,6 +24,9 @@
     <!-- Poll CSS -->
     <link rel="stylesheet" href="./css/poll.css">
 
+    <!-- Notifications CSS -->
+    <link rel="stylesheet" href="./css/notifications.css">
+
 </head>
 
 
@@ -48,6 +51,10 @@
 
     <div class="nav-links">
 
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
         <a href="community.html">
             Community Posts
         </a>
@@ -60,8 +67,8 @@
             Study Partner Finder
         </a>
 
-        <a href="dashboard.html">
-            Dashboard
+        <a href="poll.html" class="active">
+            Poll System
         </a>
 
     </div>
@@ -557,13 +564,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- SweetAlert -->
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Poll JS -->
+<!-- GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
+<!-- Scripts -->
+<script src="./js/animations.js"></script>
+<script src="./js/notifications.js"></script>
 <script src="./js/poll.js"></script>
-
 
 </body>
 

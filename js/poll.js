@@ -94,7 +94,7 @@ async function getCurrentUser() {
 
     if (error || !data.user) {
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
 
         return;
     }
@@ -574,7 +574,7 @@ async function logout() {
     await supabaseClient.auth.signOut();
 
     window.location.href =
-        "login.html";
+        "index.html";
 
 }
 
@@ -1270,6 +1270,10 @@ async function loadPolls() {
 
             }
         );
+
+        if (window.StudentHubAnim && typeof window.StudentHubAnim.animateCardsEntrance === "function") {
+            window.StudentHubAnim.animateCardsEntrance(".poll-card");
+        }
 
     }
 

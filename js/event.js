@@ -1166,9 +1166,15 @@ async function loadEvents() {
     }
 
 
-    allEvents =
-        data || [];
+    let rejectedEventIds = new Set();
+    try {
+        const stored = localStorage.getItem("studenthub_rejected_events");
+        if (stored) rejectedEventIds = new Set(JSON.parse(stored));
+    } catch (e) {}
 
+    allEvents = (data || []).filter(
+        event => event.status !== "rejected" && !rejectedEventIds.has(event.id)
+    );
 
     await renderEvents(
         allEvents
@@ -1222,6 +1228,10 @@ async function renderEvents(events) {
 
         await renderEvent(event);
 
+    }
+
+    if (window.StudentHubAnim && typeof window.StudentHubAnim.animateCardsEntrance === "function") {
+        window.StudentHubAnim.animateCardsEntrance(".event-card");
     }
 
 }

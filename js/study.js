@@ -192,7 +192,7 @@ async function checkUser() {
 
     if (!session) {
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
 
         return;
 
@@ -228,7 +228,9 @@ async function loadCurrentUser() {
     */
 
     currentUserName =
+        currentUser.user_metadata?.display_name ||
         currentUser.user_metadata?.full_name ||
+        currentUser.user_metadata?.first_name ||
         currentUser.user_metadata?.name ||
         currentUser.user_metadata?.username ||
         currentUser.email?.split("@")[0] ||
@@ -559,6 +561,10 @@ function renderPartners(partners) {
         studyPartnersGrid.appendChild(card);
 
     });
+
+    if (window.StudentHubAnim && typeof window.StudentHubAnim.animateCardsEntrance === "function") {
+        window.StudentHubAnim.animateCardsEntrance(".partner-card");
+    }
 
 }
 
@@ -2003,7 +2009,7 @@ logoutBtn.addEventListener(
 
 
         window.location.href =
-            "login.html";
+            "index.html";
 
     }
 );
