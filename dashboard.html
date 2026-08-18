@@ -1,11 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Student Dashboard</title>
+
+    <link rel="stylesheet" href="./css/dashboard.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
-    
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="dashboard.html" class="logo">
+            🎓 StudentHub
+        </a>
+
+        <div class="nav-links">
+
+            <a href="community.html">
+                Community Posts
+            </a>
+
+            <a href="event.html">
+                Events
+            </a>
+
+            <a href="study.html">
+                Study Partner Finder
+            </a>
+
+            <a href="poll.html">
+                Poll System
+            </a>
+
+        </div>
+
+
+        <!-- NOTIFICATIONS -->
+
+<div class="notification-wrapper">
+
+    <button
+        type="button"
+        class="notification-btn"
+        id="notificationBtn"
+        aria-label="Notifications"
+    >
+
+        <i class="bi bi-bell"></i>
+
+        <span
+            class="notification-badge hidden"
+            id="notificationBadge"
+        >
+            0
+        </span>
+
+    </button>
+
+
+    <!-- NOTIFICATION DROPDOWN -->
+
+    <div
+        class="notification-dropdown"
+        id="notificationDropdown"
+    >
+
+        <div class="notification-header">
+
+            <div>
+
+                <h3>
+                    Notifications
+                </h3>
+
+                <span id="notificationCountText">
+                    No new notifications
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="markAllReadBtn"
+            >
+                Mark all read
+            </button>
+
+        </div>
+
+
+        <div
+            class="notification-list"
+            id="notificationList"
+        >
+
+            <div class="notification-loading">
+
+                <span class="spinner-border spinner-border-sm"></span>
+
+                Loading...
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+        <!-- ================= PROFILE MENU ================= -->
+
+        <div class="profile-menu-wrapper">
+
+            <button class="profile-button" id="profileButton">
+
+                <div class="profile-picture" id="profilePicture">
+
+                    <span id="profileInitial">U</span>
+
+                    <img id="profilePhotoImg" src="" alt="Profile Picture">
+
+                </div>
+
+                <span id="navUserName">User</span>
+
+                 
+
+            </button>
+
+
+            <!-- PROFILE DROPDOWN -->
+
+            <div class="profile-dropdown" id="profileDropdown">
+
+                <div class="dropdown-profile">
+
+                    <div class="dropdown-profile-picture" id="dropdownProfilePicture">
+                        <span id="dropdownProfileInitial">U</span>
+
+                        <img id="dropdownProfileImg" src="" alt="Profile Picture">
+                    </div>
+
+                    <div>
+
+                        <h3 id="dropdownUserName">
+                            User
+                        </h3>
+
+                        <p id="dropdownUserEmail">
+                            user@email.com
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <button class="profile-menu-item" id="editProfileBtn">
+                    <span>✏️</span>
+                    Edit Profile
+                </button>
+
+
+                <button class="profile-menu-item" id="changePhotoBtn">
+                    <span>📷</span>
+                    Change Profile Picture
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hidden image input -->
+
+        <input type="file" id="profilePhotoInput" accept="image/jpeg,image/jpg,image/png,image/webp" hidden>
+
+
+        <!-- Logout -->
+
+        <button id="logoutBtn" class="logout-btn">
+            Logout
+        </button>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <main class="dashboard-container">
+
+
+        <!-- Welcome -->
+
+        <section class="welcome-section">
+
+            <div class="welcome-content">
+
+                <p class="welcome-label">
+                    STUDENT DASHBOARD
+                </p>
+
+                <h1>
+                    Welcome, <span id="userName">Student</span> 👋
+                </h1>
+
+                <p class="welcome-text">
+                    Welcome back! Stay connected with your student community.
+                </p>
+
+            </div>
+
+
+            <!-- Large Profile -->
+
+            <div class="large-profile-picture" id="largeProfilePicture">
+
+                <span id="largeProfileInitial">U</span>
+
+                <img id="largeProfilePhotoImg" src="" alt="Profile Picture">
+
+            </div>
+
+
+            </div>
+        </section>
+
+
+
+        <!-- ================= DASHBOARD CARDS ================= -->
+
+        <section class="dashboard-cards">
+
+
+            <!-- Total Posts -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon posts-icon">
+                    📝
+                </div>
+
+                <div class="card-content">
+
+                    <p>Total Posts</p>
+
+                    <h2>0</h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Upcoming Events -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon events-icon">
+                    📅
+                </div>
+
+                <div class="card-content">
+
+                    <p>Upcoming Events</p>
+
+                    <h2>0</h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Latest Announcements -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon announcement-icon">
+                    📢
+                </div>
+
+                <div class="card-content">
+
+                    <p>Latest Announcements</p>
+
+                    <h2>0</h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Notifications -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon notification-icon">
+                    🔔
+                </div>
+
+                <div class="card-content">
+
+                    <p>Notifications</p>
+
+                    <h2>0</h2>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= QUICK ACTIONS ================= -->
+
+        <section class="quick-section">
+
+            <div class="section-heading">
+
+                <h2>Quick Actions</h2>
+
+                <p>
+                    Quickly access the features you need.
+                </p>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+                <a href="community.html" class="quick-card">
+
+                    <div class="quick-icon">
+                        📝
+                    </div>
+
+                    <div>
+
+                        <h3>Create Post</h3>
+
+                        <p>
+                            Share something with the community.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+
+                <a href="events.html" class="quick-card">
+
+                    <div class="quick-icon">
+                        📅
+                    </div>
+
+                    <div>
+
+                        <h3>Create Event</h3>
+
+                        <p>
+                            Share an event with students.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+
+                <a href="study-partner.html" class="quick-card">
+
+                    <div class="quick-icon">
+                        🤝
+                    </div>
+
+                    <div>
+
+                        <h3>Find Study Partner</h3>
+
+                        <p>
+                            Find students to study with.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= EMPTY CONTENT AREAS ================= -->
+
+        <section class="bottom-section">
+
+
+            <div class="content-box">
+
+                <h2>Latest Announcements</h2>
+
+                <p>
+                    No announcements available yet.
+                </p>
+
+            </div>
+
+
+            <div class="content-box">
+
+                <h2>Upcoming Events</h2>
+
+                <p>
+                    No upcoming events available yet.
+                </p>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/dashboard.js"></script>
+
 </body>
+
 </html>
